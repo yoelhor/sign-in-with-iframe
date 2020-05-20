@@ -21,6 +21,12 @@ namespace TaskWebApp.Controllers
             // Demo: Let the middleware know you are trying to add the domain_hint param (see OnRedirectToIdentityProvider in Startup.Auth.cs)
             HttpContext.GetOwinContext().Set("domain_hint", HttpContext.Request.QueryString["idp"]);
 
+            // Demo: set the redirection
+            if (string.IsNullOrEmpty(HttpContext.Request.QueryString["idp"]))
+            {
+                redirectUrl = "/LoginCompleted";
+            }
+
             // Use the default policy to process the sign up / sign in flow
             HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = redirectUrl });
             return;

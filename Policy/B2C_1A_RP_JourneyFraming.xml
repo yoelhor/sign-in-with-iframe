@@ -24,7 +24,7 @@ DeploymentMode="Development" UserJourneyRecorderEndpoint="urn:journeyrecorder:ap
     <DefaultUserJourney ReferenceId="SignUpOrSignIn" />
     <UserJourneyBehaviors>
       <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="c5b9a7ce-3135-442d-b825-fa2be4f61189" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
-      <JourneyFraming Enabled="true" Sources="https://sunflowersdemo.blob.core.windows.net https://localhost:44316" />
+      <JourneyFraming Enabled="true" Sources="https://sunflowersdemo.blob.core.windows.net https://localhost:44316 https://sing-in-with-iframe.azurewebsites.net/" />
     </UserJourneyBehaviors>
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>

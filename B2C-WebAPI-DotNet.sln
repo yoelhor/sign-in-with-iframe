@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1082
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskWebApp", "TaskWebApp\TaskWebApp.csproj", "{07D1C353-4626-4D20-A804-531517BCF3F5}"
 EndProject
@@ -14,22 +14,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{84AE09
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DFC7CF4A-2525-499F-BB04-6F3E1D6EEFB0}"
+	ProjectSection(SolutionItems) = preProject
+		Policy\B2C_1A_RP_JourneyFraming.xml = Policy\B2C_1A_RP_JourneyFraming.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FEBD0A38-D884-403D-89C5-1FEFE80BB550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEBD0A38-D884-403D-89C5-1FEFE80BB550}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEBD0A38-D884-403D-89C5-1FEFE80BB550}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEBD0A38-D884-403D-89C5-1FEFE80BB550}.Release|Any CPU.Build.0 = Release|Any CPU
 		{07D1C353-4626-4D20-A804-531517BCF3F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{07D1C353-4626-4D20-A804-531517BCF3F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07D1C353-4626-4D20-A804-531517BCF3F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07D1C353-4626-4D20-A804-531517BCF3F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEBD0A38-D884-403D-89C5-1FEFE80BB550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEBD0A38-D884-403D-89C5-1FEFE80BB550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEBD0A38-D884-403D-89C5-1FEFE80BB550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEBD0A38-D884-403D-89C5-1FEFE80BB550}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D01FD3E-935E-4CF7-B49B-2F6A1BC58347}
 	EndGlobalSection
 EndGlobal
