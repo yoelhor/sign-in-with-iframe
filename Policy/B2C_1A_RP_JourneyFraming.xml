@@ -1,11 +1,58 @@
-<TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="sunflowersdemo.onmicrosoft.com" 
-PolicyId="B2C_1A_RP_JourneyFraming" PublicPolicyUri="http://sunflowersdemo.onmicrosoft.com/B2C_1A_RP_JourneyFraming" 
-DeploymentMode="Development" UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights" TenantObjectId="de678512-5915-46fd-ae83-a5df4ec052be">
+<TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="sunflowersdemo.onmicrosoft.com" PolicyId="B2C_1A_RP_JourneyFraming" PublicPolicyUri="http://sunflowersdemo.onmicrosoft.com/B2C_1A_RP_JourneyFraming" DeploymentMode="Development" UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights" TenantObjectId="de678512-5915-46fd-ae83-a5df4ec052be">
   <BasePolicy>
     <TenantId>sunflowersdemo.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_TrustFrameworkExtensions</PolicyId>
   </BasePolicy>
+  <BuildingBlocks>
+    <ContentDefinitions>
+      <ContentDefinition Id="api.signuporsignin">
+        <LoadUri>https://sunflowersdemo.blob.core.windows.net/azure-ad-b2c/framing-web/iframe_unified.html</LoadUri>
+      </ContentDefinition>
+      <ContentDefinition Id="api.localaccountsignup">
+        <LoadUri>https://sunflowersdemo.blob.core.windows.net/azure-ad-b2c/framing-web/iframe_self-asserted.html</LoadUri>
+      </ContentDefinition>
+    </ContentDefinitions>
+  </BuildingBlocks>
   <ClaimsProviders>
+<ClaimsProvider>
+  <Domain>google.com</Domain>
+  <DisplayName>Google</DisplayName>
+  <TechnicalProfiles>
+    <TechnicalProfile Id="Google-OAUTH">
+      <DisplayName>Google</DisplayName>
+      <Protocol Name="OAuth2" />
+      <Metadata>
+        <Item Key="ProviderName">google</Item>
+        <Item Key="authorization_endpoint">https://accounts.google.com/o/oauth2/auth</Item>
+        <Item Key="AccessTokenEndpoint">https://accounts.google.com/o/oauth2/token</Item>
+        <Item Key="ClaimsEndpoint">https://www.googleapis.com/oauth2/v1/userinfo</Item>
+        <Item Key="scope">email profile</Item>
+        <Item Key="HttpBinding">POST</Item>
+        <Item Key="UsePolicyInRedirectUri">0</Item>
+        <Item Key="client_id">648328750951-2r35n0qdichtou1u5sfiiinu3lvtvine.apps.googleusercontent.com</Item>
+      </Metadata>
+      <CryptographicKeys>
+        <Key Id="client_secret" StorageReferenceId="B2C_1A_GoogleSecret" />
+      </CryptographicKeys>
+      <OutputClaims>
+        <OutputClaim ClaimTypeReferenceId="issuerUserId" PartnerClaimType="id" />
+        <OutputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
+        <OutputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="given_name" />
+        <OutputClaim ClaimTypeReferenceId="surname" PartnerClaimType="family_name" />
+        <OutputClaim ClaimTypeReferenceId="displayName" PartnerClaimType="name" />
+        <OutputClaim ClaimTypeReferenceId="identityProvider" DefaultValue="google.com" />
+        <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="socialIdpAuthentication" />
+      </OutputClaims>
+      <OutputClaimsTransformations>
+        <OutputClaimsTransformation ReferenceId="CreateRandomUPNUserName" />
+        <OutputClaimsTransformation ReferenceId="CreateUserPrincipalName" />
+        <OutputClaimsTransformation ReferenceId="CreateAlternativeSecurityId" />
+        <OutputClaimsTransformation ReferenceId="CreateSubjectClaimFromAlternativeSecurityId" />
+      </OutputClaimsTransformations>
+      <UseTechnicalProfileForSessionManagement ReferenceId="SM-SocialLogin" />
+    </TechnicalProfile>
+  </TechnicalProfiles>
+</ClaimsProvider>
     <ClaimsProvider>
       <DisplayName>Token Issuer</DisplayName>
       <TechnicalProfiles>
@@ -20,11 +67,46 @@ DeploymentMode="Development" UserJourneyRecorderEndpoint="urn:journeyrecorder:ap
       </TechnicalProfiles>
     </ClaimsProvider>
   </ClaimsProviders>
+
+  <UserJourneys>
+    <UserJourney Id="SignUpOrSignIn">
+      <OrchestrationSteps>
+      
+        <OrchestrationStep Order="1" Type="CombinedSignInAndSignUp" ContentDefinitionReferenceId="api.signuporsignin">
+          <ClaimsProviderSelections>
+            <ClaimsProviderSelection TargetClaimsExchangeId="FacebookExchange"/>
+            <ClaimsProviderSelection TargetClaimsExchangeId="GoogleExchange"/>
+            <ClaimsProviderSelection ValidationClaimsExchangeId="LocalAccountSigninEmailExchange"/>
+          </ClaimsProviderSelections>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="LocalAccountSigninEmailExchange" TechnicalProfileReferenceId="SelfAsserted-LocalAccountSignin-Email"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <!-- Check if the user has selected to sign in using one of the social providers -->
+        <OrchestrationStep Order="2" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>objectId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="FacebookExchange" TechnicalProfileReferenceId="Facebook-OAUTH"/>
+            <ClaimsExchange Id="GoogleExchange" TechnicalProfileReferenceId="Google-OAUTH"/>
+            <ClaimsExchange Id="SignUpWithLogonEmailExchange" TechnicalProfileReferenceId="LocalAccountSignUpWithLogonEmail"/>
+          </ClaimsExchanges>
+        </OrchestrationStep>
+    </OrchestrationSteps>
+    </UserJourney>
+  </UserJourneys>
+
+
   <RelyingParty>
     <DefaultUserJourney ReferenceId="SignUpOrSignIn" />
     <UserJourneyBehaviors>
       <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="c5b9a7ce-3135-442d-b825-fa2be4f61189" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
-      <JourneyFraming Enabled="true" Sources="https://sunflowersdemo.blob.core.windows.net https://localhost:44316" />
+      <JourneyFraming Enabled="true" Sources="https://sunflowersdemo.blob.core.windows.net https://localhost:44316 https://sing-in-with-iframe.azurewebsites.net/" />
     </UserJourneyBehaviors>
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
