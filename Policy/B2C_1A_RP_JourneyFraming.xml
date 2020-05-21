@@ -1,10 +1,24 @@
-<TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="sunflowersdemo.onmicrosoft.com" 
-PolicyId="B2C_1A_RP_JourneyFraming" PublicPolicyUri="http://sunflowersdemo.onmicrosoft.com/B2C_1A_RP_JourneyFraming" 
+<TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="sunflowersdemo.onmicrosoft.com"
+PolicyId="B2C_1A_RP_JourneyFraming" PublicPolicyUri="http://sunflowersdemo.onmicrosoft.com/B2C_1A_RP_JourneyFraming"
 DeploymentMode="Development" UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights" TenantObjectId="de678512-5915-46fd-ae83-a5df4ec052be">
   <BasePolicy>
     <TenantId>sunflowersdemo.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_TrustFrameworkExtensions</PolicyId>
   </BasePolicy>
+
+  <BuildingBlocks>
+    <ContentDefinitions>
+      <ContentDefinition Id="api.signuporsignin">
+        <LoadUri>https://sunflowersdemo.blob.core.windows.net/azure-ad-b2c/framing-web/iframe_unified.html</LoadUri>
+      </ContentDefinition>
+      
+      <ContentDefinition Id="api.localaccountsignup">
+        <LoadUri>https://sunflowersdemo.blob.core.windows.net/azure-ad-b2c/framing-web/iframe_self-asserted.html</LoadUri>
+      </ContentDefinition>
+    </ContentDefinitions>
+  </BuildingBlocks>
+
+
   <ClaimsProviders>
     <ClaimsProvider>
       <DisplayName>Token Issuer</DisplayName>

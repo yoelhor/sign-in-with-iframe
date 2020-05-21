@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1082
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskWebApp", "TaskWebApp\TaskWebApp.csproj", "{07D1C353-4626-4D20-A804-531517BCF3F5}"
 EndProject
@@ -17,6 +17,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DFC7CF4A-2525-499F-BB04-6F3E1D6EEFB0}"
 	ProjectSection(SolutionItems) = preProject
 		Policy\B2C_1A_RP_JourneyFraming.xml = Policy\B2C_1A_RP_JourneyFraming.xml
+		B2C_HTML\iframe_unified.html = B2C_HTML\iframe_unified.html
 	EndProjectSection
 EndProject
 Global
